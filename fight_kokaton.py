@@ -159,7 +159,6 @@ class Beam:
     def __init__(self,bird:Bird):
         self.img = pg.image.load(f"{MAIN_DIR}/fig/beam.png")
         self.vx , self.vy= +5,0
-
         vx, vy = bird.dire
         theta = math.atan2(-vy, vx) # 直交座標から極座標の角度を計算
         angle = math.degrees(theta)
