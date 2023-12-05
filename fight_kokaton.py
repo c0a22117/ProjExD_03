@@ -8,7 +8,7 @@ import pygame as pg
 
 WIDTH = 1400  # ゲームウィンドウの幅
 HEIGHT = 800  # ゲームウィンドウの高さ
-NUM_OF_BOMBS = 5
+NUM_OF_BOMBS = 6
 MAIN_DIR = os.path.split(os.path.abspath(__file__))[0]
 
 
@@ -108,10 +108,9 @@ class Bomb:
         引数1 color：爆弾円の色タプル
         引数2 rad：爆弾円の半径
         """
-        rad = random.randint(10, 100)
+        rad = random.randint(10, 20)
         self.img = pg.Surface((2*rad, 2*rad))
         color = random.choice(__class__.colors)
-        rad = random.randint(10, 100)
         pg.draw.circle(self.img, color, (rad, rad), rad)
         self.img.set_colorkey((0, 0, 0))
         self.rct = self.img.get_rect()
@@ -177,16 +176,17 @@ def main():
                 return
 
         for i, bomb in enumerate(bombs):
-            if beam is not None and beam.rct.colliderect(bomb.rct):
-                beam = None
+            if beam is not None and bomb.rct.colliderect(beam.rct):
                 bombs[i] = None
+                beam = None
                 bird.change_img(6, screen)
+                pg.display.update()
         bombs = [bomb for bomb in bombs if bomb is not None]
 
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
-        if bomb in bombs:
+        for bomb in bombs:
             bomb.update(screen)
         if beam is not None:
             beam.update(screen)
